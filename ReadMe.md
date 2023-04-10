@@ -1,6 +1,6 @@
 # Project Description
 
-This is a Python program that generates a challenge link for the game GeoGuessr and appends it to a text file on the user's device. The program utilizes the Response library and Beautiful Soup library to scrape the GeoGuessr website and extract the challenge link.
+This is a Python program that generates a challenge link for the game GeoGuessr and appends it to a text file on the user's device. The program utilizes the requests library and Beautiful Soup library to scrape the GeoGuessr website and extract the challenge link.
 
 ## Prerequisites
 
@@ -8,6 +8,8 @@ The program requires Python 3.x and the following libraries:
 
 - Response
 - Beautiful Soup
+
+__**You must have a geoguessr account, and a premium subscription for this to work**__
 
 ## Installation
 
