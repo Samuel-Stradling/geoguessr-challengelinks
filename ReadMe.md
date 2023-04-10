@@ -16,9 +16,7 @@ _**You must have a geoguessr account, and a premium subscription for this to wor
 1. Clone the repository to your local machine.
 2. Install the required libraries using pip:
 
-pip install response
-pip install beautifulsoup4
-
+**insert**
 ## Usage
 
 1. Navigate to the project directory.
