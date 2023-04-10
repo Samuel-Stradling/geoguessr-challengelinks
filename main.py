@@ -29,18 +29,25 @@ def validate_email(email):
         return False
 
 
-def write_to_txt(link):
+def write_to_txt(link, mapName, roundTime, move, pan, zoom):
     with open("links.txt", "a") as file:
-        file.write(f"{link}\n")
+        file.write(f"{mapName} time:{roundTime} move:{move} pan:{pan} zoom:{zoom}  : {link}\n")
 
 
 def login(username, password):
     """Logs into the geoguessr website. Navigates to the map screen. Returns the driver object, to be passed into subsequent functions"""
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+    ## run this to install the chrome driver first time
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+
+    driver = webdriver.Chrome()
+    driver.switch_to.window(driver.current_window_handle)
+    driver.maximize_window()
     
     url = "https://www.geoguessr.com/signin"
     driver.get("https://www.geoguessr.com/signin")
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
 
     usernameEL = driver.find_element(By.NAME, "email")
     passwordEL = driver.find_element(By.NAME, "password")
@@ -121,26 +128,38 @@ def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: b
         #driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div/div[2]/input').click()
 
         # move slider
-        handle = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[1]/div/label/div[2]/div/div/div[2]')
-        ActionChains(driver).drag_and_drop_by_offset(handle, timeSliderXCoordinateOffset[roundTime], 0).perform()
+        setTime = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[1]/div/label/div[3]')
+        setTime = setTime.get_attribute('innerHTML')
+        if setTime[0:setTime.index(" ")] != roundTime and roundTime != 0:
+            handle = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[1]/div/label/div[2]/div/div/div[2]')
+            ActionChains(driver).drag_and_drop_by_offset(handle, timeSliderXCoordinateOffset[roundTime], 0).perform()
 
         if not move:
-            driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[1]/div[3]/input').click()
+            setStatus = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[1]/div[2]')
+            setStatus = setStatus.get_attribute('innerHTML')
+            if "no" not in setStatus.lower():
+                driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[1]/div[3]/input').click()
         if not pan:
-            driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[2]/div[3]/input').click()
+            setStatus = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[2]/div[2]')
+            setStatus = setStatus.get_attribute('innerHTML')
+            if "no" not in setStatus.lower():
+                driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[2]/div[3]/input').click()
         if not zoom:
-            driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[3]/div[3]/input').click()
+            setStatus = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[3]/div[2]')
+            setStatus = setStatus.get_attribute('innerHTML')
+            if "no" not in setStatus.lower():
+                driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[3]/div[3]/input').click()
         
         # go to the link
-        driver.find_element(By.XPATH, '/html/body/div/div[2]/div[2]/div[1]/main/div/div/div/div/div[3]/button').click()
+        driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[3]/button').click()
+        #time.sleep(0.5)
 
         # select link
         linkContainer = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/section/article/div/span/input')
         link = linkContainer.get_attribute('value')
 
         
-        write_to_txt(link)
-
+        write_to_txt(link, map, roundTime, move, pan, zoom)
 
 
         return driver
@@ -154,15 +173,17 @@ def close(driver):
 def main():
     username, password = get_username_password()
     driver = login(username, password)
-    link1 = get_link(driver, roundTime=5, zoom=False)
-    link2 = get_link(driver, roundTime=0, map='united-kingdom', move=False, pan=True)
+    count = 0
+    while count < 10:
+        link1 = get_link(driver, roundTime=5, zoom=False)
+        count+=1
 
 
 
 
 
 
-    close(link1)
+    close(driver)
 
 
 
