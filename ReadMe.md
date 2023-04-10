@@ -9,7 +9,7 @@ The program requires Python 3.x and the following libraries:
 - Response
 - Beautiful Soup
 
-__**You must have a geoguessr account, and a premium subscription for this to work**__
+_**You must have a geoguessr account, and a premium subscription for this to work**_
 
 ## Installation
 
