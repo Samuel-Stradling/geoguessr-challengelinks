@@ -170,12 +170,16 @@ def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: b
 def close(driver):
     driver.close()
 
+
+
 def main():
     username, password = get_username_password()
     driver = login(username, password)
+
+    
     count = 0
     while count < 10:
-        link1 = get_link(driver, roundTime=5, zoom=False)
+        defaultWorld = get_link(driver)
         count+=1
 
 
