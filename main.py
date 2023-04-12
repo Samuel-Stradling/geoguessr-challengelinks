@@ -22,7 +22,7 @@ def get_username_password():
     return (username, password)
 
 
-def validate_email(email):
+def validate_email(email) -> bool:
     if re.search("^[^@]+@[^@]+(?:.com|.net|.org|.edu|.co.uk|.ac.uk)", email):
         return True
     else:
@@ -34,11 +34,11 @@ def write_to_txt(link, mapName, roundTime, move, pan, zoom):
         file.write(f"{mapName} time:{roundTime} move:{move} pan:{pan} zoom:{zoom}  : {link}\n")
 
 
-def login(username, password):
+def login(username, password) -> webdriver.Chrome() :
     """Logs into the geoguessr website. Navigates to the map screen. Returns the driver object, to be passed into subsequent functions"""
 
     ## run this to install the chrome driver first time
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 
     driver = webdriver.Chrome()
@@ -69,7 +69,7 @@ def login(username, password):
     return driver
 
 
-def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: bool=True, zoom: bool=True):
+def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: bool=True, zoom: bool=True) -> webdriver.Chrome() :
 
     """get_link fetches a challenge link given the driver (also returned by get_link). Optional args:
     => roundTime: an integer specifing the length of time for each round. Maximum is 10. 0[default] is infinite time
@@ -150,6 +150,7 @@ def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: b
             if "no" not in setStatus.lower():
                 driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[3]/div[3]/input').click()
         
+        time.sleep(0.5)
         # go to the link
         driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[3]/button').click()
         #time.sleep(0.5)
