@@ -16,7 +16,9 @@ _**You must have a geoguessr account, and a premium subscription for this to wor
 1. Clone the repository to your local machine.
 2. Install the required libraries using pip:
 
-**insert**
+selenium
+webdriver-manager
+
 ## Usage
 
 1. Navigate to the project directory.
@@ -33,5 +35,3 @@ If you would like to contribute to this project, please open an issue or submit 
 ## License
 
 This project is entirely open source. You are welcome to use and modify this code to suit your needs. If you find any issues or would like to contribute to the project, please feel free to open an issue or submit a pull request on our GitHub repository. Thank you for your interest in this project!
-
-
