@@ -34,7 +34,7 @@ def write_to_txt(link, mapName, roundTime, move, pan, zoom):
         file.write(f"{mapName} time:{roundTime} move:{move} pan:{pan} zoom:{zoom}  : {link}\n")
 
 
-def login(username, password) -> webdriver.Chrome() :
+def login(username, password):
     """Logs into the geoguessr website. Navigates to the map screen. Returns the driver object, to be passed into subsequent functions"""
 
     ## run this to install the chrome driver first time
@@ -69,7 +69,7 @@ def login(username, password) -> webdriver.Chrome() :
     return driver
 
 
-def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: bool=True, zoom: bool=True) -> webdriver.Chrome() :
+def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: bool=True, zoom: bool=True):
 
     """get_link fetches a challenge link given the driver (also returned by get_link). Optional args:
     => roundTime: an integer specifing the length of time for each round. Maximum is 10. 0[default] is infinite time
@@ -179,8 +179,8 @@ def main():
 
     
     count = 0
-    while count < 10:
-        defaultWorld = get_link(driver)
+    while count < 20:
+        ret = get_link(driver, move=False, pan=False, zoom=False)
         count+=1
 
 
@@ -188,7 +188,7 @@ def main():
 
 
 
-    close(driver)
+    close(ret)
 
 
 
