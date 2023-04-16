@@ -85,8 +85,8 @@ def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: b
             'united-kingdom': 'https://www.geoguessr.com/maps/uk/play',
             'united-states': 'https://www.geoguessr.com/maps/usa/play',
             'european-union': 'https://www.geoguessr.com/maps/european-union/play',
-            'london': 'https://www.geoguessr.com/maps/london',
-            'slovakia': 'https://www.geoguessr.com/maps/slovakia'
+            'london': 'https://www.geoguessr.com/maps/london/play',
+            'slovakia': 'https://www.geoguessr.com/maps/slovakia/play'
         }
 
         timeSliderXCoordinateOffset = {
@@ -180,7 +180,17 @@ def main():
     
     count = 0
     while count < 20:
-        ret = get_link(driver, move=False, pan=False, zoom=False)
+        get_link(driver, roundTime=2, map="united-kingdom", move=False, pan=False, zoom=False)
+        count+=1
+
+    count = 0
+    while count < 20:
+        get_link(driver, map="london")
+        count+=1
+
+    count = 0
+    while count < 20:
+        get_link(driver)
         count+=1
 
 
@@ -188,7 +198,8 @@ def main():
 
 
 
-    close(ret)
+
+    close(driver)
 
 
 
