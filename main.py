@@ -134,6 +134,10 @@ def get_link(driver, roundTime: int=0, map: str="world", move: bool=True, pan: b
             handle = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[1]/div/label/div[2]/div/div/div[2]')
             ActionChains(driver).drag_and_drop_by_offset(handle, timeSliderXCoordinateOffset[roundTime], 0).perform()
 
+        elif setTime[0:setTime.index(" ")] != roundTime and roundTime == 0:
+            handle = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[1]/div/label/div[2]/div/div/div[2]')
+            ActionChains(driver).drag_and_drop_by_offset(handle, timeSliderXCoordinateOffset[roundTime], 0).perform()
+
         if not move:
             setStatus = driver.find_element(By.XPATH, '//*[@id="__next"]/div[2]/div[2]/div[1]/main/div/div/div/div/div[5]/div/div[2]/div/div[2]/label[1]/div[2]')
             setStatus = setStatus.get_attribute('innerHTML')
@@ -178,20 +182,12 @@ def main():
     driver = login(username, password)
 
     
-    count = 0
-    while count < 20:
-        get_link(driver, roundTime=2, map="united-kingdom", move=False, pan=False, zoom=False)
-        count+=1
+   
 
-    count = 0
-    while count < 20:
-        get_link(driver, map="london")
-        count+=1
 
-    count = 0
-    while count < 20:
+    while True:
         get_link(driver)
-        count+=1
+
 
 
 
